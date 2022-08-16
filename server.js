@@ -36,7 +36,7 @@ const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 const router = Router();
 
-const PORT = myArgs.PORT || 8080;
+const PORT = myArgs.PORT || process.env.PORT || 8080;
 
 const serverUp = () => {
   const server = httpServer.listen(PORT, () => {
