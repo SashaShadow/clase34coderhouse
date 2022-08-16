@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicia sesión</title>
+    <%- include("../partials/loginHead.ejs"); %>
+</head>
+
+<body>
+
+    <form action="/api/signup" method="post" enctype="application/json" class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+              <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+      
+                  <div class="mb-md-5 mt-md-4 pb-5">
+      
+                    <h2 class="fw-bold mb-2 text-uppercase">Registrarse</h2>
+
+                    <p class="errorMsg"><%= message.join(", "); %></p>
+                    <p class="text-white-50 mb-5">Ingresa tus datos para crear una cuenta</p>
+      
+                    <div class="form-outline form-white mb-4">
+                      <input type="text" id="username" name="username" class="form-control form-control-lg" required/>
+                      <label class="form-label" for="username">Nombre de usuario</label>
+                    </div>
+
+                    <div class="form-outline form-white mb-4">
+                        <input type="email" id="email" name="email" class="form-control form-control-lg" required/>
+                        <label class="form-label" for="email">Email</label>
+                      </div>
+
+                    <div class="form-outline form-white mb-4">
+                      <input type="password" id="password" name="password" class="form-control form-control-lg" required/>
+                      <label class="form-label" for="password">Contraseña</label>
+                    </div>
+      
+                    <button class="btn btn-outline-light btn-lg px-5" type="submit">Registrarse</button>
+      
+                  </div>
+      
+                  <div>
+                    <p class="mb-0">¿Ya tenés una cuenta? <a href="/api/login" class="text-white-50 fw-bold">Inicia sesión</a>
+                    </p>
+                  </div>
+      
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+
+</body>
+
+</html>

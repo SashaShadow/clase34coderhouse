@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat y Productos</title>
+    <%- include("../partials/head.ejs"); %>
+</head>
+<body>
+
+    <% if (user) { %>
+        <div class="Welcome">
+            <div class="WText">Bienvenido <%= user.username %>
+                <p>Email:<%= user.email %></p>
+            </div>
+            
+            <a href="/api/logout"  class="logout"><button class="logoutButton">Cerrar sesión</button></a>
+        </div>
+
+    <% } %>
+    
+        <div class="ChatGroup">
+            <div class="Chat">
+                <h2>Chat</h2>
+                <form enctype="application/json" class="chatForm">
+                    <div class="form-group">
+                        <h4 class="chatUser"><%= user.username %></h4>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="text" name="text" placeholder="Envia un mensaje" required>
+                    </div>
+    
+                    <button type="submit" id="chatButton" class="btn btn-primary">Enviar</button>
+                </form>   
+            </div> 
+    
+            <div class="ChatMsgs">
+    
+            </div>
+        </div>
+        
+
+
+        <div class="Subcontainer">
+            <h2>Ingrese un producto</h2>
+            <form enctype="application/json" class="myForm">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" name="name" id="name" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="price">Precio</label>
+                    <input type="number" name="price" id="price" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="photo">Ingrese link a la imagen del producto</label>
+                    <input type="text" name="photo" id="photo" class="form-control" min="0" max="120"/>
+                </div>
+                <div class="form-group">
+                    <label for="desc">Ingrese descripcion del producto</label>
+                    <input type="text" name="desc" id="desc" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="stock">Stock del producto</label>
+                    <input type="number" name="stock" id="stock" class="form-control" min="0" max="100"/>
+                </div>
+                <div class="form-group">
+                    <label for="code">Ingrese codigo del producto</label>
+                    <input type="text" name="code" id="code" class="form-control" min="0" max="10"/>
+                </div>
+                <button type="submit" id="myButton" class="btn btn-primary">Enviar</button>
+            </form>
+        </div>
+
+        <div class="Subcontai2ner">
+            <h2>Productos ingresados</h2>
+            <table class="table table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Imagen</th>
+                </tr>
+                </thead>
+                <tbody id="element"></tbody>
+            </table>
+        </div>
+ 
+    <script src="main.js"></script>
+    <script src="ejs.js"></script>
+</body>
+</html>

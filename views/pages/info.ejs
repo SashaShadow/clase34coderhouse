@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información</title>
+    <%- include("../partials/head.ejs"); %>
+</head>
+<body>
+
+    <% if (info && cpus) { %>
+        <div class="Info">
+
+            <h3>Sistema operativo: <%= info.platform %></h3>
+            <h3>Version de Node.js: <%= info.version %></h3>
+            <h3>Memoria total reservada: <%= info.memoryUsage().rss %> </h3>
+            <h3>Path de ejecución: <%= info.title %></h3>
+            <h3>Process id: <%= info.pid %></h3>
+            <h3>Carpeta del proyecto: <%= info.cwd() %> </h3>
+            <h3>Numero de procesadores: <%= cpus %> </h3>
+
+        </div>
+    <% } %>
+
+
+    <script src="./ejs.js"></script>
+</body>
+</html>
