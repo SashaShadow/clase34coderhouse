@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi perfil</title>
+    <%- include("../partials/head.ejs"); %>
+    <%- include("../partials/css.ejs"); %>
+</head>
+<body>
+    
+    <div class="Profile">
+        <h1>Datos de la cuenta</h1>
+        <% if (user) { %>
+            <div class="ProfileInfo">
+                <img src="<%= user.photo %>" />
+                <div>
+                    <h1>Nombre: <%= user.name %></h1>
+                    <h1>Usuario: <%= user.username %></h1>
+                    <h1>Email: <%= user.email %></h1>
+                    <h1>Edad: <%= user.age %></h1>
+                    <h1>Dirección: <%= user.address %></h1>
+                    <h1>Teléfono: +<%= user.phone %></h1>
+                </div>
+            </div>   
+        <% } %>
+    </div>
+
+</body>
+</html>

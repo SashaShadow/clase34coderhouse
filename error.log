@@ -1,0 +1,9 @@
+[2022-08-26T08:54:06.295] [ERROR] errorOnly - TypeError: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property 'parser' -> object with constructor 'HTTPParser'
+    --- property 'socket' closes the circle
+    at JSON.stringify (<anonymous>)
+    at stringify (/home/sashashadow/Escritorio/Coding/backend-coder/Clase 36/EntregableFinal3/node_modules/express/lib/response.js:1150:12)
+    at ServerResponse.json (/home/sashashadow/Escritorio/Coding/backend-coder/Clase 36/EntregableFinal3/node_modules/express/lib/response.js:271:14)
+    at file:///home/sashashadow/Escritorio/Coding/backend-coder/Clase%2036/EntregableFinal3/routers/cartsRouter.js:23:20
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)

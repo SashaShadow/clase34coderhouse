@@ -7,8 +7,6 @@ const chatForm = document.querySelector(".chatForm");
 const prodForm = document.querySelector(".myForm");
 const chatUser = document.querySelector(".chatUser");
 
-console.log(chatUser.innerHTML)
-
 chatForm.addEventListener("submit", (e) => {
     e.preventDefault();
     return fetch(`http://localhost:8080/api/mensajes/`, {
@@ -21,15 +19,18 @@ chatForm.addEventListener("submit", (e) => {
             "time": new Date().toLocaleString()}),})
 })
 
-prodForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    return fetch(`http://localhost:8080/api/products/`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({"name": event.target.name.value, "price":event.target.price.value,
-        "desc": event.target.desc.value, "photo": event.target.photo.value, "code": event.target.code.value,
-        "stock": event.target.stock.value}),})
-})
+if (prodForm) {
+    prodForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        return fetch(`http://localhost:8080/api/products/`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"name": event.target.name.value, "price":event.target.price.value,
+            "desc": event.target.desc.value, "photo": event.target.photo.value, "code": event.target.code.value,
+            "stock": event.target.stock.value}),})
+    })
+}
+
 
 
 const render = (data) => {
@@ -63,7 +64,7 @@ const addProducto = () => {
     return false;
 }
 
-myButton.addEventListener("click", () => addProducto());
+myButton && myButton.addEventListener("click", () => addProducto());
 
 socket.on("Mensajes", data => {
     render(data);
@@ -88,7 +89,6 @@ const getTemplate = async () => {
     return templateData;
 }
 
-
 socket.on("Productos", async data => {
     const templateData = await getTemplate();
     const template = ejs.compile(templateData);
@@ -102,7 +102,7 @@ socket.on("Productos", async data => {
         })
     }).join(" ");
 
-    element.innerHTML = templateRendered;
+    element ? element.innerHTML = templateRendered : null;
 });
 
 
@@ -122,6 +122,24 @@ socket.on("ProductoIndividual", async data => {
     element.innerHTML += templateRendered;
 })
 
+const getProds = async () => {
+    const products = await fetch('http://localhost:8080/api/products/')
+    const productsResults = await products.json();
+
+    console.log(productsResults.productos);
+
+    const prodCards = productsResults.productos.map(prod => {
+        return `
+        <div class="Card"> 
+            <h3>${prod.name}</h3>
+            <img src="${prod.photo}"/>
+            <h3>Precio: ${prod.price}</h3>
+        </div>`
+    }).join(" ")
+    document.querySelector('.ProdContainer').innerHTML = prodCards;
+}
 
 
-console.log("funciona el import xd");
+getProds();
+
+

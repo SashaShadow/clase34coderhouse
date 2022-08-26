@@ -1,18 +1,21 @@
 import express from "express";
 import session from 'express-session';
 const { Router } = express;
-import { logger200, logger404 } from "./middlewares.js";
+import { logger200, logger404, validateNumber, uploadFile } from "./middlewares.js";
 import { logger, loggerError } from "./logger.js";
 import { Server as IOServer } from "socket.io";
 import { Server as HttpServer } from "http";
 import productsRouter from "./routers/productsRouter.js";
+import cartRouter from "./routers/cartsRouter.js";
 import randomRouter from './routers/randomRouter.js';
+import { upload } from './multer.js';
 import flash from 'connect-flash';
 import MongoStore from 'connect-mongo';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cluster from 'cluster';
 import os from 'os';
+import cors from 'cors';
 import passport from 'passport';
 import { login, signup, serialize, deSerialize } from './auth/auth.js';
 import { loginRoute, loginPost, signupRoute, signupPost, logout } from './auth/routes.js';
@@ -68,6 +71,7 @@ const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true}
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors());
 app.use(compression()); //desactivar o activar para chequear el peso de la ruta info
 app.use("/api", express.static("./public"));
 app.set("view engine", "ejs"); 
@@ -112,11 +116,19 @@ router.get("/", (req, res) => {
     }
 });
 
+router.get("/profile", (req, res) => {
+    if (req.user) {
+      res.render("pages/profile.ejs", {user: req.user});
+    } else {
+      res.redirect('/api/login')
+    }
+})
+
 // RUTAS AUTH
 router.get('/login', loginRoute())
 router.post('/login', loginPost())
 router.get('/signup', signupRoute())
-router.post('/signup', signupPost())
+router.post('/signup', upload.single('photo'), uploadFile(), validateNumber(), signupPost())
 router.get('/logout', logout())
 
 //INFO (XD)
@@ -133,5 +145,6 @@ router.get('/info', (req, res) => {
 
 app.use('/api', logger200(), router);
 app.use('/api/random',  logger200(), randomRouter);
-app.use('/api/products', logger200(), productsRouter)
+app.use('/api/products', logger200(), productsRouter);
+app.use('/api/cart', cartRouter); 
 app.use(logger404());

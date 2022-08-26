@@ -1,4 +1,54 @@
 import { logger, loggerWarn } from "./logger.js";
+import twilio from 'twilio';
+import { User } from './dbsConfig.js';
+import "dotenv/config.js";
+
+const accountSid = process.env.ACCOUNTSID;
+const authToken = process.env.AUTHTOKEN;
+
+const client = twilio(accountSid, authToken)
+
+export const validateAdmin = () => {
+    return (req, res, next) => {
+        console.log(req.user)
+        if (!req.user.admin) {
+            return res.json({Error: 'No tienes acceso a esta ruta'})
+        }
+        next()
+    }
+}
+
+export const validateNumber = () => {
+    return (req, res, next) => {
+      const newPhone = req.body.phone;
+      let phoneError = true;
+  
+     client.lookups.v1.phoneNumbers(newPhone)
+      .fetch({type: ['carrier']})
+      .then(_ => {
+        phoneError = false;
+        req.session.phoneError = '';
+      })
+      .catch(err => console.log(err))
+      .finally(() => {
+          if (phoneError) {
+            req.session.phoneError = 'Numero invalido'
+          } 
+          next()
+        })
+     }
+  }
+
+export const uploadFile = () => { 
+    return (req, res, next) => {
+      const file = req.file
+      if (!file) {
+        return next()
+      }
+      req.session.img = file.filename;
+      next();
+    }
+  }
 
 export const validatePost = () => {
     return (req, res, next) => {
@@ -24,6 +74,19 @@ export const validatePut = () => {
             next();
         } else {
             res.send({error: "El formato del producto no es correcto"})
+        }
+    }
+}
+
+export const validateAddToCart = () => {
+    return (req, res, next) => {
+        const product = req.body;
+        if (product.name && product.price && product.photo && 
+            product.desc && product.code && product.stock &&
+            Object.keys(product).length === 6) {
+                next();
+        } else {
+            return res.status(400).send({error: "parametros incorrectos"})
         }
     }
 }

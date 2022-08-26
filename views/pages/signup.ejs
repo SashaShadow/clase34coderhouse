@@ -3,13 +3,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicia sesión</title>
+    <title>Crea una cuenta</title>
     <%- include("../partials/loginHead.ejs"); %>
+    <%- include("../partials/css.ejs"); %>
+    
 </head>
 
 <body>
 
-    <form action="/api/signup" method="post" enctype="application/json" class="vh-100 gradient-custom">
+    <form action="/api/signup" method="post" enctype="multipart/form-data" class="vh-100 gradient-custom signupForm">
         <div class="container py-5 h-100">
           <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -37,6 +39,32 @@
                       <input type="password" id="password" name="password" class="form-control form-control-lg" required/>
                       <label class="form-label" for="password">Contraseña</label>
                     </div>
+
+                    <div class="form-outline form-white mb-4">
+                      <input type="text" id="name" name="name" class="form-control form-control-lg" required/>
+                      <label class="form-label" for="name">Nombre</label>
+                    </div>
+
+                    <div class="form-outline form-white mb-4">
+                      <input type="number" id="age" name="age" class="form-control form-control-lg" min=13 max=99 required/>
+                      <label class="form-label" for="age">Edad</label>
+                    </div>
+
+                    <div class="form-outline form-white mb-4">
+                      <input type="text" id="address" name="address" class="form-control form-control-lg" required/>
+                      <label class="form-label" for="address">Direccion</label>
+                    </div>
+
+                    <div class="form-outline form-white mb-4">
+                      <input id="phone" type="tel" name="phone" class="form-control form-control-lg" size="20" placeholder='Teléfono formato E.164' required/>
+                      <!-- <input type="tel" name="phone" class="form-control form-control-lg" size="20" required/> -->
+                      <label class="form-label" for="phone">Teléfono</label>
+                    </div>
+
+                    <div class="mb-3">
+                      <input class="form-control" type="file" id="photo" name="photo" required>
+                      <label for="formFile" class="form-label">Foto/Avatar</label>
+                    </div>
       
                     <button class="btn btn-outline-light btn-lg px-5" type="submit">Registrarse</button>
       
@@ -46,7 +74,6 @@
                     <p class="mb-0">¿Ya tenés una cuenta? <a href="/api/login" class="text-white-50 fw-bold">Inicia sesión</a>
                     </p>
                   </div>
-      
                 </div>
               </div>
             </div>
@@ -54,6 +81,19 @@
         </div>
     </form>
 
+    <div class="alert alert-info" style="display: none;"></div>
+    <div class="alert alert-error" style="display: none"></div>
+
+    <div class="container2">
+      <h1>Obtene tu numero telefónico en formato E.164</h1>
+      <form id="login" onsubmit="process(event)">
+        <p>Enter your phone number:</p>
+        <input id="phonev" type="tel" name="phone" />
+        <input type="submit" class="btn" value="Verify" />
+      </form>
+    </div>
+
+    <%- include("../partials/phonev.ejs"); %>
 </body>
 
 </html>

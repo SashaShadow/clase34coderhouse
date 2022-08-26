@@ -34,7 +34,7 @@ export const signupPost = () => {
         successRedirect: '/api',
         failureRedirect: '/api/signup',
         failureFlash: true
-      })
+    })
 }
 
 export const logout = () => {
